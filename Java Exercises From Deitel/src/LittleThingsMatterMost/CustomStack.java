@@ -1,6 +1,10 @@
 package LittleThingsMatterMost;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 public class CustomStack {
     int defaultMinimum;
@@ -20,6 +24,7 @@ public class CustomStack {
     }
 
     ArrayList<Pair> customStack = new ArrayList();
+
 
     void addElement(int element){
         if (element < defaultMinimum || customStack.size() == 0) defaultMinimum = element;
@@ -64,7 +69,8 @@ public class CustomStack {
         }
     }
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         CustomStack customStack = new CustomStack();
         customStack.addElement(7);
         customStack.addElement(64);
@@ -75,5 +81,62 @@ public class CustomStack {
         customStack.addElement(28);
         System.out.println("Last Element Is " + customStack.getLastElement());
 
+
+
+
+
+
+
+
+        // ITERATOR & LISTITERATOR WITH ARRAYLIST
+
+        ArrayList<String> fruits = new ArrayList();
+        fruits.add("Mango");
+        fruits.add("Apple");
+        fruits.add("Pineapple");
+        Iterator iterator = fruits.iterator();
+        while(iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
+        Collections.sort(fruits);
+        ListIterator<String> fruitsList = fruits.listIterator(fruits.size());
+        while(fruitsList.hasPrevious()){
+            System.out.println(fruitsList.previous());
+        }
+
+        //  LAMBDA FOR-EACH
+
+        fruits.set(2,"Peaches");
+        fruits.forEach(fruit -> System.out.println(fruit));
+        iterator.forEachRemaining(fruitIterator -> System.out.println(fruitIterator));
+
+        //  SERIALIZATION
+
+        FileOutputStream outputStream = new FileOutputStream("fileStream.txt");
+        ObjectOutputStream objectOutput = new ObjectOutputStream(outputStream);
+        objectOutput.writeObject(fruits);
+        outputStream.close();
+        objectOutput.close();
+
+        //  DESERIALIZATION
+        FileInputStream fileInputStream = new FileInputStream("fileStream.txt");
+        ObjectInputStream objectInput = new ObjectInputStream(fileInputStream);
+        ArrayList readFruits = (ArrayList) objectInput.readObject();
+        System.out.println("Read :" + readFruits + "From File");
+
+        // RETAINALL (IS LIKE INTERSECTION)
+
+        ArrayList moreFruits = new ArrayList();
+        moreFruits.add("Orange");
+        moreFruits.add("Tangerine");
+        moreFruits.add("Mango");
+        moreFruits.add("Pear");
+//        fruits.addAll(2, moreFruits);
+//        fruits.removeIf(str -> str.contains("Apple"));
+        fruits.retainAll(moreFruits);
+        Iterator retainIterator = fruits.iterator();
+        while (retainIterator.hasNext()){
+            System.out.println(retainIterator.next() + " Is Their Intersect");
+        }
     }
 }
