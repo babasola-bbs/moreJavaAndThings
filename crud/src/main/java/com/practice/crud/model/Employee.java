@@ -1,12 +1,15 @@
 package com.practice.crud.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name="employees")
 public class Employee {
 
@@ -22,5 +25,13 @@ public class Employee {
 
     @Column(name = "email")
     private String email;
+
+
+    public Employee(String firstname, String lastname, String email) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+    }
+
 
 }
